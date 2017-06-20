@@ -13,7 +13,7 @@ class CollectorTests: XCTestCase {
     
     func testCreateCollectorForAdded() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .added)
         
         XCTAssertNil(collector.first)
@@ -39,7 +39,7 @@ class CollectorTests: XCTestCase {
     
     func testCreateCollectorForAddedOrUpdated() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .addedOrUpdated)
         
         XCTAssertNil(collector.first)
@@ -60,7 +60,7 @@ class CollectorTests: XCTestCase {
     
     func testCreateCollectorForRemoved(){
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .removed)
         
         XCTAssertNil(collector.first)
@@ -78,7 +78,7 @@ class CollectorTests: XCTestCase {
     
     func testDrainAndPause() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .addedUpdatedOrRemoved)
         
         XCTAssertNil(collector.first)
@@ -102,7 +102,7 @@ class CollectorTests: XCTestCase {
     
     func testStaysCollectedEvenAfterDestroyAndEntityWillBeReusedAfterDraining() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .added)
         
         weak var e1 = ctx.createEntity().set(Position(x: 2, y: 4))
@@ -123,7 +123,7 @@ class CollectorTests: XCTestCase {
     
     func testCollectedAndMatching() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .added)
         
         let e = ctx.createEntity().set(Position(x: 1, y: 4))
@@ -134,7 +134,7 @@ class CollectorTests: XCTestCase {
     
     func testCollectorIsEmpty() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         let collector = Collector(group: g, type: .added)
         
         XCTAssert(collector.isEmpty)

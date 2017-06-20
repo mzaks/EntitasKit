@@ -72,7 +72,7 @@ class ContextTests: XCTestCase {
         let e2 = ctx.createEntity().set(Position(x: 2, y: 3))
         let e3 = ctx.createEntity().set(Name(value: "Max"))
         
-        let group = ctx.getGroup(Position.matcher)
+        let group = ctx.group(Position.matcher)
         
         XCTAssertEqual(group.count, 2)
         
@@ -95,19 +95,19 @@ class ContextTests: XCTestCase {
         let e3 = ctx.createEntity().set(Name(value: "Max")).set(Position(x: 5, y: 6))
         let e4 = ctx.createEntity().set(Name(value: "Max0"))
         
-        let group1 = ctx.getGroup(Matcher(all: [Position.cid, Name.cid]))
+        let group1 = ctx.group(Matcher(all: [Position.cid, Name.cid]))
         XCTAssertEqual(group1.sorted(), [e3])
         
-        let group2 = ctx.getGroup(Matcher(any: [Position.cid, Name.cid]))
+        let group2 = ctx.group(Matcher(any: [Position.cid, Name.cid]))
         XCTAssertEqual(group2.sorted(), [e1, e2, e3, e4])
         
-        let group3 = ctx.getGroup(Matcher(any: [Position.cid], none: [Name.cid]))
+        let group3 = ctx.group(Matcher(any: [Position.cid], none: [Name.cid]))
         XCTAssertEqual(group3.sorted(), [e1, e2])
         
-        let group4 = ctx.getGroup(Matcher(all: [Name.cid], none: [Position.cid]))
+        let group4 = ctx.group(Matcher(all: [Name.cid], none: [Position.cid]))
         XCTAssertEqual(group4.sorted(), [e4])
         
-        let group5 = ctx.getGroup(Matcher(all: [Position.cid], any:[Name.cid]))
+        let group5 = ctx.group(Matcher(all: [Position.cid], any:[Name.cid]))
         XCTAssertEqual(group5.sorted(), [e3])
     }
     
@@ -117,7 +117,7 @@ class ContextTests: XCTestCase {
         ctx.createEntity().set(Position(x: 2, y: 3))
         let e3 = ctx.createEntity().set(Name(value: "Max")).set(God())
         
-        let e = ctx.getUniqueEntity(Name.matcher)
+        let e = ctx.uniqueEntity(Name.matcher)
         
         XCTAssertNotNil(e)
         XCTAssert(e === e3)
@@ -131,20 +131,20 @@ class ContextTests: XCTestCase {
         let e2 = ctx.createEntity().set(Name(value: "Max2")).set(Person())
         
         do {
-            let c : God? = ctx.getUniqueComponent()
+            let c : God? = ctx.uniqueComponent()
             XCTAssertNotNil(c)
             
-            let e = ctx.getUniqueEntity(God.matcher)
+            let e = ctx.uniqueEntity(God.matcher)
             XCTAssert(e === e1)
         }
         
         e2.set(God())
         
         do {
-            let c : God? = ctx.getUniqueComponent()
+            let c = ctx.uniqueComponent(God.self)
             XCTAssertNotNil(c)
             
-            let e = ctx.getUniqueEntity(God.matcher)
+            let e = ctx.uniqueEntity(God.matcher)
             XCTAssert(e === e2)
         }
     }
@@ -163,14 +163,14 @@ class ContextTests: XCTestCase {
         
         XCTAssert(ctx.hasUniqueComponent(God.self))
         
-        let e = ctx.getUniqueEntity(God.self)
+        let e = ctx.uniqueEntity(God.self)
         XCTAssertNotNil(e)
         XCTAssert(e?.waitingForRebirth == false)
         
         let e2 = ctx.createEntity().set(God())
         
         XCTAssert(e !== e2)
-        XCTAssert(ctx.getUniqueEntity(God.self) === e2)
+        XCTAssert(ctx.uniqueEntity(God.self) === e2)
         XCTAssert(e?.waitingForRebirth == true)
     }
 }

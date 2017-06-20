@@ -15,7 +15,7 @@ public final class Index<T : Hashable, C: Component> {
     fileprivate let keyBuilder: (C) -> T
     
     init(ctx: Context, paused: Bool = false, keyBuilder: @escaping (C) -> T) {
-        self.group = ctx.getGroup(C.matcher)
+        self.group = ctx.group(C.matcher)
         self.entities = [:]
         self.keyBuilder = keyBuilder
         self.isPaused = paused

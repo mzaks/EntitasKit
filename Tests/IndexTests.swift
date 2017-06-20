@@ -19,7 +19,7 @@ class IndexTests: XCTestCase {
         let e3 = ctx.createEntity().set(Size(value: 3))
         let e11 = ctx.createEntity().set(Size(value: 1))
         
-        let index = ctx.getIndex { (s: Size) -> Int in
+        let index = ctx.index { (s: Size) -> Int in
             return s.value
         }
         
@@ -55,7 +55,7 @@ class IndexTests: XCTestCase {
         let e3 = ctx.createEntity().set(Size(value: 3))
         let e11 = ctx.createEntity().set(Size(value: 1))
         
-        let index = ctx.getIndex(paused: true) { (s: Size) -> Int in
+        let index = ctx.index(paused: true) { (s: Size) -> Int in
             return s.value
         }
         

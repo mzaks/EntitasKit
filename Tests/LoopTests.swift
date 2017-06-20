@@ -17,7 +17,7 @@ class LoopTests: XCTestCase {
         let collector: Collector
         init(ctx: Context) {
             self.ctx = ctx
-            self.collector = Collector(group: self.ctx.getGroup(Position.matcher), type: .addedOrUpdated)
+            self.collector = Collector(group: self.ctx.group(Position.matcher), type: .addedOrUpdated)
         }
         
         func initialise() {
@@ -31,7 +31,7 @@ class LoopTests: XCTestCase {
             }
         }
         func teardown() {
-            for e in ctx.getGroup(Position.matcher) {
+            for e in ctx.group(Position.matcher) {
                 e.destroy()
             }
         }
@@ -49,7 +49,7 @@ class LoopTests: XCTestCase {
             ctx.createEntity().set(Name(value: "Max"))
         }
         func cleanup() {
-            for e in ctx.getGroup(Name.matcher) {
+            for e in ctx.group(Name.matcher) {
                 e.destroy()
             }
         }
@@ -73,12 +73,12 @@ class LoopTests: XCTestCase {
         loop.execute()
         loop.cleanup()
         
-        let g1 = ctx.getGroup(Position.matcher)
+        let g1 = ctx.group(Position.matcher)
         XCTAssertEqual(g1.count, 1)
         XCTAssertEqual(g1.first(where: {_ in true})?.get(Position.self)?.x, 2)
         XCTAssertEqual(g1.first(where: {_ in true})?.get(Position.self)?.y, 2)
         
-        let g2 = ctx.getGroup(Name.matcher)
+        let g2 = ctx.group(Name.matcher)
         XCTAssertEqual(g2.count, 0)
         
         loop.teardown()
@@ -113,7 +113,7 @@ class LoopTests: XCTestCase {
         let collector: Collector
         init(ctx: Context) {
             self.ctx = ctx
-            self.collector = Collector(group: self.ctx.getGroup(Name.matcher), type: .addedOrUpdated)
+            self.collector = Collector(group: self.ctx.group(Name.matcher), type: .addedOrUpdated)
         }
         
         var entities: [Entity] = []

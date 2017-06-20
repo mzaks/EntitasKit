@@ -19,7 +19,7 @@ class ReactiveLoopTests: XCTestCase {
         init(ctx: Context, block: @escaping ()->()) {
             self.ctx = ctx
             self.block = block
-            self.collector = Collector(group: self.ctx.getGroup(Matcher(all:[Position.cid, Size.cid])), type: .addedOrUpdated)
+            self.collector = Collector(group: self.ctx.group(Matcher(all:[Position.cid, Size.cid])), type: .addedOrUpdated)
         }
         
         func execute(entities: Set<Entity>) {
@@ -38,7 +38,7 @@ class ReactiveLoopTests: XCTestCase {
         init(ctx: Context, block: @escaping ()->()) {
             self.ctx = ctx
             self.block = block
-            self.collector = Collector(group: self.ctx.getGroup(Name.matcher), type: .addedOrUpdated)
+            self.collector = Collector(group: self.ctx.group(Name.matcher), type: .addedOrUpdated)
         }
         
         func execute(entities: Set<Entity>) {

@@ -31,7 +31,7 @@ public final class ReactiveLoop: GroupObserver {
             cids.formUnion(system.collector.matcher.anyOf)
             cids.formUnion(system.collector.matcher.noneOf)
         }
-        group = ctx.getGroup(Matcher(any:cids))
+        group = ctx.group(Matcher(any:cids))
         group.observer(add: self)
     }
     

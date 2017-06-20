@@ -52,7 +52,7 @@ public final class Context {
         return e
     }
     
-    public func getGroup(_ matcher: Matcher) -> Group {
+    public func group(_ matcher: Matcher) -> Group {
         if let group = groups[matcher] {
             return group
         }
@@ -83,24 +83,27 @@ public final class Context {
         return group
     }
     
-    public func getUniqueEntity(_ matcher: Matcher) -> Entity? {
-        let g = getGroup(matcher)
+    public func uniqueEntity(_ matcher: Matcher) -> Entity? {
+        let g = group(matcher)
         assert(g.count <= 1, "\(g.count) entites found for matcher \(matcher)")
         return g.first(where: {_ in return true})
     }
     
-    public func getUniqueEntity<T: UniqueComponent>(_ type: T.Type) -> Entity? {
-        return getUniqueEntity(Matcher(all: [type.cid]))
+    public func uniqueEntity<T: UniqueComponent>(_ type: T.Type) -> Entity? {
+        return uniqueEntity(Matcher(all: [type.cid]))
     }
     
-    public func getUniqueComponent<T: UniqueComponent>() -> T? {
-        let g = getGroup(Matcher(all: [T.cid]))
+    public func uniqueComponent<T: UniqueComponent>(_ type: T.Type) -> T? {
+        let g = group(Matcher(all: [T.cid]))
         assert(g.count <= 1, "\(g.count) entites found")
-        return g.first(where: {_ in return true})?.get()
+        return g.first(where: {_ in return true})?.get()    }
+    
+    public func uniqueComponent<T: UniqueComponent>() -> T? {
+        return uniqueComponent(T.self)
     }
     
     public func setUniqueComponent<T: UniqueComponent>(_ component: T) {
-        if let e = getUniqueEntity(Matcher(all: [component.cid])) {
+        if let e = uniqueEntity(Matcher(all: [component.cid])) {
             e.set(component)
         } else {
             createEntity().set(component)
@@ -108,10 +111,10 @@ public final class Context {
     }
     
     public func hasUniqueComponent<T: UniqueComponent>(_ type: T.Type) -> Bool {
-        return getUniqueEntity(Matcher(all: [type.cid])) != nil
+        return uniqueEntity(Matcher(all: [type.cid])) != nil
     }
     
-    public func getIndex<T: Hashable, C: Component>(paused: Bool = false, keyBuilder: @escaping (C) -> T) -> Index<T, C> {
+    public func index<T: Hashable, C: Component>(paused: Bool = false, keyBuilder: @escaping (C) -> T) -> Index<T, C> {
         return Index(ctx: self, paused: paused, keyBuilder: keyBuilder)
     }
     
@@ -122,7 +125,7 @@ public final class Context {
     
     fileprivate func updated(component oldComponent: Component?, with newComponent: Component, in entity: Entity) {
         if newComponent is UniqueComponent,
-            let uniqueEntity = getUniqueEntity(Matcher(all: [newComponent.cid])),
+            let uniqueEntity = uniqueEntity(Matcher(all: [newComponent.cid])),
             uniqueEntity != entity {
             uniqueEntity.remove(newComponent.cid)
             if uniqueEntity.isEmpty {

@@ -31,7 +31,7 @@ class GroupTests: XCTestCase {
     
     func testObservAllOfGroup() {
         let ctx = Context()
-        let g = ctx.getGroup(Matcher(all:[Position.cid, Size.cid]))
+        let g = ctx.group(Matcher(all:[Position.cid, Size.cid]))
         let o = Observer()
         g.observer(add:o)
         
@@ -75,7 +75,7 @@ class GroupTests: XCTestCase {
     
     func testObservAnyOfGroup() {
         let ctx = Context()
-        let g = ctx.getGroup(Matcher(any:[Position.cid, Size.cid]))
+        let g = ctx.group(Matcher(any:[Position.cid, Size.cid]))
         let o = Observer()
         g.observer(add:o)
         
@@ -121,7 +121,7 @@ class GroupTests: XCTestCase {
     
     func testObservAllOfNoneOfGroup(){
         let ctx = Context()
-        let g = ctx.getGroup(Matcher(all:[Position.cid, Size.cid], none: [Name.cid]))
+        let g = ctx.group(Matcher(all:[Position.cid, Size.cid], none: [Name.cid]))
         let o = Observer()
         g.observer(add:o)
         
@@ -161,7 +161,7 @@ class GroupTests: XCTestCase {
     
     func testRemoveObserving() {
         let ctx = Context()
-        let g = ctx.getGroup(Matcher(any:[Position.cid, Size.cid]))
+        let g = ctx.group(Matcher(any:[Position.cid, Size.cid]))
         let o = Observer()
         g.observer(add:o)
         
@@ -179,7 +179,7 @@ class GroupTests: XCTestCase {
     
     func testWeakObserverGetRemoved() {
         let ctx = Context()
-        let g = ctx.getGroup(Matcher(any:[Position.cid, Size.cid]))
+        let g = ctx.group(Matcher(any:[Position.cid, Size.cid]))
         weak var o0 : Observer?
         do {
             let o = Observer()
@@ -198,8 +198,8 @@ class GroupTests: XCTestCase {
     
     func testMultipleGroups() {
         let ctx = Context()
-        let g1 = ctx.getGroup(Matcher(any:[Position.cid, Size.cid]))
-        let g2 = ctx.getGroup(Matcher(all:[Position.cid, Size.cid]))
+        let g1 = ctx.group(Matcher(any:[Position.cid, Size.cid]))
+        let g2 = ctx.group(Matcher(all:[Position.cid, Size.cid]))
         
         let o1 = Observer()
         let o2 = Observer()
@@ -230,7 +230,7 @@ class GroupTests: XCTestCase {
     
     func testEntityObjectPool() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         
         weak var e = ctx.createEntity().set(Position(x: 1, y:2))
         
@@ -253,7 +253,7 @@ class GroupTests: XCTestCase {
     
     func testSoretedListFromGroup() {
         let ctx = Context()
-        let g = ctx.getGroup(Position.matcher)
+        let g = ctx.group(Position.matcher)
         
         var list = g.sorted()
         
