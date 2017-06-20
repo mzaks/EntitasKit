@@ -1,0 +1,6 @@
+language: objective-c
+osx_image: xcode8
+script:
+  - echo -en "travis_fold:start:unit_test\r"
+  - xcodebuild test -project EntitasKit.xcodeproj -scheme EntitasKit-macos ONLY_ACTIVE_ARCH=NO
+  - echo -en "travis_fold:end:unit_test\r"
