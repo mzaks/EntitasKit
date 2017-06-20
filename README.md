@@ -1,0 +1,2 @@
+# EntitasKit
+Entitas Swift implementation
