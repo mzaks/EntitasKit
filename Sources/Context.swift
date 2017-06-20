@@ -18,6 +18,18 @@ public final class Context {
     private var groups: [Matcher: Group] = [:]
     private var groupsByCID: [CID: Set<Group>] = [:]
     
+    public init() {}
+    
+    deinit {
+        for e in entities {
+            e.destroy()
+        }
+        entities.removeAll()
+        entityPool.removeAll()
+        groups.removeAll()
+        groupsByCID.removeAll()
+    }
+    
     public func createEntity() -> Entity {
         entityIndex += 1
         var pooledEntity: Entity? = nil
