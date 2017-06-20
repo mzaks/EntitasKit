@@ -1,6 +1,6 @@
 language: objective-c
 osx_image: xcode8
 script:
-  - xcodebuild test -project EntitasKit.xcodeproj -scheme EntitasKit-macos -sdk macosx -configuration Release -enableCodeCoverage YES test
+  - xcodebuild test -project EntitasKit.xcodeproj -scheme EntitasKit-macos ONLY_ACTIVE_ARCH=NO
 after_success:
   - bash <(curl -s https://codecov.io/bash)
