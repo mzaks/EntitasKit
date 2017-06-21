@@ -25,10 +25,10 @@ public protocol Component {}
 public protocol UniqueComponent: Component {}
 
 extension Component {
-    static var cid : CID {
+    public static var cid : CID {
         return CID(Self.self)
     }
-    var cid : CID {
+    public var cid : CID {
         return CID(Self.self)
     }
 }

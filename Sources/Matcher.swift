@@ -12,7 +12,7 @@ public struct Matcher {
     let allOf: Set<CID>
     let anyOf: Set<CID>
     let noneOf: Set<CID>
-    func matches(_ e: Entity) -> Bool {
+    public func matches(_ e: Entity) -> Bool {
         for id in allOf {
             if e.has(id) == false {
                 return false
@@ -34,7 +34,7 @@ public struct Matcher {
         return false
     }
     
-    init(all: Set<CID>, any: Set<CID>, none: Set<CID>) {
+    public init(all: Set<CID>, any: Set<CID>, none: Set<CID>) {
         allOf = all
         anyOf = any
         noneOf = none
@@ -42,23 +42,23 @@ public struct Matcher {
         assert(isDisjoint, "Your matcher is not disjoint")
     }
     
-    init(all: Set<CID>) {
+    public init(all: Set<CID>) {
         self.init(all: all, any:[], none: [])
     }
-    init(all: Set<CID>, any: Set<CID>) {
+    public init(all: Set<CID>, any: Set<CID>) {
         self.init(all: all, any:any, none: [])
     }
-    init(any: Set<CID>) {
+    public init(any: Set<CID>) {
         self.init(all: [], any:any, none: [])
     }
-    init(any: Set<CID>, none: Set<CID>) {
+    public init(any: Set<CID>, none: Set<CID>) {
         self.init(all: [], any:any, none: none)
     }
-    init(all: Set<CID>, none: Set<CID>) {
+    public init(all: Set<CID>, none: Set<CID>) {
         self.init(all: all, any:[], none: none)
     }
     
-    var isDisjoint : Bool {
+    private var isDisjoint : Bool {
         return allOf.isDisjoint(with: anyOf) && allOf.isDisjoint(with: noneOf) && anyOf.isDisjoint(with: noneOf)
     }
 }
@@ -73,7 +73,7 @@ extension Matcher: Hashable {
 }
 
 extension Component {
-    static var matcher: Matcher {
+    public static var matcher: Matcher {
         return Matcher(all:[Self.cid])
     }
 }
