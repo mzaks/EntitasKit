@@ -33,7 +33,7 @@ public protocol ReactiveSystem: ExecuteSystem {
 }
 
 extension ReactiveSystem {
-    func execute() {
+    public func execute() {
         if collector.isEmpty == false {
             self.execute(entities: collector.collected)
         }
