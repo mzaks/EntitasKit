@@ -12,7 +12,7 @@ public final class Group: Hashable {
     fileprivate var entities: Set<Entity> = []
     private var observers : Set<ObserverBox> = []
     let matcher: Matcher
-    var presorted: [Entity]?
+    var sortedCache: [ObjectIdentifier: [Entity]] = [:]
     
     init(matcher: Matcher) {
         self.matcher = matcher
@@ -20,7 +20,7 @@ public final class Group: Hashable {
     
     func add(_ e: Entity) {
         entities.insert(e)
-        presorted = nil
+        sortedCache.removeAll(keepingCapacity: true)
     }
     
     public func observer(add observer:GroupObserver) {
@@ -63,7 +63,7 @@ public final class Group: Hashable {
     
     private func notify(groupEvent: GroupEvent, oldComponent: Component?, newComponent: Component?, entity: Entity) {
         
-        presorted = nil
+        sortedCache.removeAll(keepingCapacity: true)
         
         for observer in observers {
             guard let observer = observer.ref as? GroupObserver else {
@@ -97,12 +97,25 @@ extension Group : Sequence {
         return entities.makeIterator()
     }
     
-    func sorted() -> [Entity] {
-        if presorted == nil {
-            presorted = entities.sorted()
+    public func sorted() -> [Entity] {
+        let id = ObjectIdentifier(self)
+        if let presorted = sortedCache[id] {
+            return presorted
         }
         
-        return presorted ?? []
+        let sorted = entities.sorted()
+        sortedCache[id] = sorted
+        return sorted
+    }
+    
+    public func sorted(forObject id: ObjectIdentifier, by sortingAlgo: (Entity, Entity) -> (Bool)) -> [Entity] {
+        if let presorted = sortedCache[id] {
+            return presorted
+        }
+        
+        let sorted = entities.sorted(by: sortingAlgo)
+        sortedCache[id] = sorted
+        return sorted
     }
 }
 

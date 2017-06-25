@@ -266,5 +266,34 @@ class GroupTests: XCTestCase {
         list = g.sorted()
         
         XCTAssertEqual(list, [e, e1])
+        
+        let list2 = g.sorted()
+        
+        XCTAssert(list == list2)
+    }
+    
+    func testSoretedListForObjectFromGroup() {
+        let ctx = Context()
+        let g = ctx.group(Position.matcher)
+        
+        var list = g.sorted()
+        
+        XCTAssertEqual(list, [])
+        
+        let e = ctx.createEntity().set(Position(x: 1, y:2))
+        
+        let e1 = ctx.createEntity().set(Position(x: 2, y:2))
+        
+        list = g.sorted(forObject: ObjectIdentifier(self)) { e1, e2 in
+            return (e1.get(Position.self)?.x ?? 0) > (e2.get(Position.self)?.x ?? 0)
+        }
+        
+        XCTAssertEqual(list, [e1, e])
+        
+        let list2 = g.sorted(forObject: ObjectIdentifier(self)) { e1, e2 in
+            return (e1.get(Position.self)?.x ?? 0) > (e2.get(Position.self)?.x ?? 0)
+        }
+        
+        XCTAssert(list == list2)
     }
 }
