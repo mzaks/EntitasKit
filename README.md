@@ -655,7 +655,7 @@ class SwitchParentOfOptionASystem: ReactiveSystem {
 }
 ```
 
-Last thing we need to do is to updat eour AppDelegate
+Last thing we need to do is to update our AppDelegate
 
 ```
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
