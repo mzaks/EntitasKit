@@ -10,7 +10,6 @@ import Foundation
 
 public final class Context {
     public private(set) var entities: Set<Entity> = []
-    private var entityPool: [Entity] = []
     private var entityIndex: Int = 0
     lazy private var mainObserver: MainObserver = {
         return MainObserver(ctx: self)
@@ -25,29 +24,13 @@ public final class Context {
             e.destroy()
         }
         entities.removeAll()
-        entityPool.removeAll()
         groups.removeAll()
         groupsByCID.removeAll()
     }
     
     public func createEntity() -> Entity {
         entityIndex += 1
-        var pooledEntity: Entity? = nil
-        for i in 0 ..< entityPool.count {
-            unowned let e = entityPool[i]
-            if CFGetRetainCount(e) <= 2 {
-                pooledEntity = e
-                entityPool.remove(at: i)
-                break
-            }
-        }
-        let e : Entity
-        if let pooledEntity = pooledEntity {
-            pooledEntity.creationIndex = entityIndex
-            e = pooledEntity
-        } else {
-            e = Entity(index: entityIndex, mainObserver: mainObserver)
-        }
+        let e = Entity(index: entityIndex, mainObserver: mainObserver)
         entities.insert(e)
         return e
     }
@@ -120,7 +103,6 @@ public final class Context {
     
     fileprivate func destroyed(entity: Entity) {
         entities.remove(entity)
-        entityPool.append(entity)
     }
     
     fileprivate func updated(component oldComponent: Component?, with newComponent: Component, in entity: Entity) {

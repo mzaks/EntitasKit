@@ -228,29 +228,6 @@ class GroupTests: XCTestCase {
         XCTAssertEqual(o2.removedData.count, 0)
     }
     
-    func testEntityObjectPool() {
-        let ctx = Context()
-        let g = ctx.group(Position.matcher)
-        
-        weak var e = ctx.createEntity().set(Position(x: 1, y:2))
-        
-        weak var e1 = ctx.createEntity().set(Position(x: 2, y:2))
-        
-        XCTAssertEqual(g.count, 2)
-        
-        XCTAssert(e !== e1)
-        
-        e?.destroy()
-        
-        XCTAssertEqual(g.count, 1)
-        
-        weak var e2 = ctx.createEntity().set(Position(x: 3, y:2))
-        
-        XCTAssertEqual(g.count, 2)
-        
-        XCTAssert(e2 === e)
-    }
-    
     func testSoretedListFromGroup() {
         let ctx = Context()
         let g = ctx.group(Position.matcher)

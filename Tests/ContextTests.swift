@@ -30,7 +30,7 @@ class ContextTests: XCTestCase {
     }
     
     
-    func testCreateEntityIncrementIndexWitEntityDestroyAndReuse() {
+    func testCreateEntityIncrementIndexWitEntityDestroy() {
         let ctx = Context()
         unowned let e = ctx.createEntity()
         XCTAssertEqual(e.creationIndex, 1)
@@ -46,7 +46,6 @@ class ContextTests: XCTestCase {
         let e3 = ctx.createEntity()
         XCTAssertEqual(e3.creationIndex, 4)
         
-        XCTAssert(e === e2)
     }
     
     func testCreateEntityIncrementIndexWitEntityDestroyAndWithoutReuse() {
@@ -165,12 +164,10 @@ class ContextTests: XCTestCase {
         
         let e = ctx.uniqueEntity(God.self)
         XCTAssertNotNil(e)
-        XCTAssert(e?.waitingForRebirth == false)
         
         let e2 = ctx.createEntity().set(God())
         
         XCTAssert(e !== e2)
         XCTAssert(ctx.uniqueEntity(God.self) === e2)
-        XCTAssert(e?.waitingForRebirth == true)
     }
 }

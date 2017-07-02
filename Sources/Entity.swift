@@ -10,26 +10,18 @@ import Foundation
 
 
 public final class Entity {
-    internal var creationIndex: Int {
-        didSet {
-            waitingForRebirth = false
-        }
-    }
+    let creationIndex: Int
     private var components: [CID: Component] = [:]
     fileprivate let mainObserver: EntityObserver
     
     private var observers : Set<ObserverBox> = []
-    private(set) var waitingForRebirth = false {
-        didSet {
-            if waitingForRebirth {
-                observers.removeAll()
-            }
-        }
-    }
-    
     init(index: Int, mainObserver: EntityObserver) {
         creationIndex = index
         self.mainObserver = mainObserver
+    }
+    
+    deinit {
+        observers.removeAll()
     }
     
     public func get<T : Component>() -> T? {
@@ -42,10 +34,6 @@ public final class Entity {
     
     @discardableResult
     public func set<T : Component>(_ comp: T) -> Entity {
-        guard waitingForRebirth == false else {
-            assertionFailure("Adding components to dead entity")
-            return self
-        }
         let c = components.updateValue(comp, forKey: T.cid)
         updated(component: c, with: comp)
         return self
@@ -69,7 +57,7 @@ public final class Entity {
             remove(cid)
         }
         destroyed()
-        waitingForRebirth = true
+        observers.removeAll()
     }
     
     public var isEmpty: Bool {

@@ -72,21 +72,31 @@ class EntityObserverTests: XCTestCase {
     
     func testDestroyEntity() {
         let observer = Observer()
+        let observer2 = Observer()
         let e = Entity(index: 0, mainObserver: observer)
+        e.observer(add: observer2)
         e.set(Position(x: 1, y: 2))
         
         e.destroy()
         
         XCTAssertEqual(observer.removedData.count, 1)
+        XCTAssertEqual(observer2.removedData.count, 1)
         
         let p = observer.removedData[0].0 as! Position
         XCTAssertEqual(p.x, 1)
         XCTAssertEqual(p.y, 2)
         
+        let p2 = observer2.removedData[0].0 as! Position
+        XCTAssertEqual(p2.x, 1)
+        XCTAssertEqual(p2.y, 2)
+        
         XCTAssert(observer.removedData[0].1 === e)
+        XCTAssert(observer2.removedData[0].1 === e)
         
         XCTAssertEqual(observer.destroyedData.count, 1)
+        XCTAssertEqual(observer2.destroyedData.count, 1)
         XCTAssert(observer.destroyedData[0] === e)
+        XCTAssert(observer2.destroyedData[0] === e)
     }
     
     func testAddComponentMultipleObservers() {

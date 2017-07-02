@@ -44,8 +44,9 @@ public final class Collector {
     public var collectedAndMatching : [Entity] {
         let result = entities
         entities = []
-        return result.filter{ [weak self] in
-            return (self?.matcher.matches($0)) ?? false
+        let matcher = self.matcher
+        return result.filter {
+            return matcher.matches($0)
         }
     }
     

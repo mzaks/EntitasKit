@@ -100,27 +100,6 @@ class CollectorTests: XCTestCase {
         XCTAssertNil(collector.first)
     }
     
-    func testStaysCollectedEvenAfterDestroyAndEntityWillBeReusedAfterDraining() {
-        let ctx = Context()
-        let g = ctx.group(Position.matcher)
-        let collector = Collector(group: g, type: .added)
-        
-        weak var e1 = ctx.createEntity().set(Position(x: 2, y: 4))
-        e1?.destroy()
-        weak var e2 = ctx.createEntity().set(Position(x: 3, y: 4))
-        XCTAssert(e1 !== e2)
-        e2?.destroy()
-        weak var e3 = ctx.createEntity().set(Position(x: 4, y: 4))
-        XCTAssert(e1 !== e3 && e2 !== e3)
-        e3?.destroy()
-        
-        
-        XCTAssertEqual(collector.collected.count, 3)
-        XCTAssertEqual(collector.collected.count, 0)
-        weak var e4 = ctx.createEntity().set(Position(x: 5, y: 4))
-        XCTAssert(e1 === e4)
-    }
-    
     func testCollectedAndMatching() {
         let ctx = Context()
         let g = ctx.group(Position.matcher)

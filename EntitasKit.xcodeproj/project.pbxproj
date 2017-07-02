@@ -32,6 +32,7 @@
 		0B50D7891EF95F0C003B3B23 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69848F1EF958F400B8D931 /* Index.swift */; };
 		0B50D78A1EF95F0C003B3B23 /* Loop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69848B1EF958F400B8D931 /* Loop.swift */; };
 		0B50D78D1EF95F0C003B3B23 /* Entitas-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B6984941EF958F400B8D931 /* Entitas-Swift.h */; };
+		0B6265E41F004A0100702FE9 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6265E31F004A0100702FE9 /* PerformanceTests.swift */; };
 		0B6984961EF958F400B8D931 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6984891EF958F400B8D931 /* System.swift */; };
 		0B6984971EF958F400B8D931 /* ReactiveLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69848A1EF958F400B8D931 /* ReactiveLoop.swift */; };
 		0B6984981EF958F400B8D931 /* Loop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69848B1EF958F400B8D931 /* Loop.swift */; };
@@ -60,6 +61,7 @@
 		0B1BF9B11EE47F92005F654F /* EntitasKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EntitasKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1BF9BA1EE47F92005F654F /* EntitasKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EntitasKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B50D7931EF95F0C003B3B23 /* EntitasKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EntitasKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B6265E31F004A0100702FE9 /* PerformanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PerformanceTests.swift; path = Tests/PerformanceTests.swift; sourceTree = SOURCE_ROOT; };
 		0B6984891EF958F400B8D931 /* System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = System.swift; path = Sources/System.swift; sourceTree = SOURCE_ROOT; };
 		0B69848A1EF958F400B8D931 /* ReactiveLoop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactiveLoop.swift; path = Sources/ReactiveLoop.swift; sourceTree = SOURCE_ROOT; };
 		0B69848B1EF958F400B8D931 /* Loop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Loop.swift; path = Sources/Loop.swift; sourceTree = SOURCE_ROOT; };
@@ -170,6 +172,7 @@
 				0B6984AD1EF9590A00B8D931 /* ComponentTests.swift */,
 				0B6984AE1EF9590A00B8D931 /* TestComponents.swift */,
 				0B6984AF1EF9590A00B8D931 /* Info.plist */,
+				0B6265E31F004A0100702FE9 /* PerformanceTests.swift */,
 			);
 			name = Tests;
 			path = "Entitas-SwiftTests";
@@ -346,6 +349,7 @@
 				0B50D77A1EF959FD003B3B23 /* EntityObserverTests.swift in Sources */,
 				0B50D7791EF959FD003B3B23 /* MatcherTests.swift in Sources */,
 				0B50D7751EF959FD003B3B23 /* EntityTests.swift in Sources */,
+				0B6265E41F004A0100702FE9 /* PerformanceTests.swift in Sources */,
 				0B50D7761EF959FD003B3B23 /* CollectorTests.swift in Sources */,
 				0B50D7771EF959FD003B3B23 /* IndexTests.swift in Sources */,
 				0B50D77C1EF959FD003B3B23 /* TestComponents.swift in Sources */,
