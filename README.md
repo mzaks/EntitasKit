@@ -673,6 +673,9 @@ Last thing we need to do is to update our AppDelegate
     }
 ```
 
+All code for this example can be found here:
+https://gist.github.com/mzaks/c1428efcbbbb0c0c430537715afea8c6
+
 ## Entitas family
 - [C#](https://github.com/sschmid/Entitas-CSharp)
 - [C++](https://github.com/JuDelCo/Entitas-Cpp)
