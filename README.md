@@ -1,4 +1,4 @@
-Access# EntitasKit
+# EntitasKit
 
 [![Build Status](https://travis-ci.org/mzaks/EntitasKit.svg?branch=master)](https://travis-ci.org/mzaks/EntitasKit)
 [![codecov](https://codecov.io/gh/mzaks/EntitasKit/branch/master/graph/badge.svg)](https://codecov.io/gh/mzaks/EntitasKit)
@@ -290,7 +290,7 @@ In this section we will use all the knowledge we accumulated from the previous s
 
 A picture tells more than 1000 words so here is a screen shot of what the result will look like:
 
-__TBD___
+![](docs/screenshot001.png)
 
 First things first let's define an options context:
 
