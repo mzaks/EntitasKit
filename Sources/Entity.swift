@@ -114,3 +114,41 @@ extension Entity: Comparable {
         return lhs.creationIndex < rhs.creationIndex
     }
 }
+
+public func += <T: Component>(e: Entity, c: T) {
+    e.set(c)
+}
+
+public func -= (e: Entity, cid: CID) {
+    e.remove(cid)
+}
+
+extension Entity {
+    public func with<C1: Component>(block: (C1) -> Void) {
+        if let c = self.get(C1.self) {
+            block(c)
+        }
+    }
+    public func with<C1: Component, C2: Component>(block: (C1, C2) -> Void) {
+        if let c1 = self.get(C1.self),
+            let c2 = self.get(C2.self) {
+            block(c1, c2)
+        }
+    }
+    public func with<C1: Component, C2: Component, C3: Component>(block: (C1, C2, C3) -> Void) {
+        if let c1 = self.get(C1.self),
+            let c2 = self.get(C2.self),
+            let c3 = self.get(C3.self) {
+            block(c1, c2, c3)
+        }
+    }
+    public func with<C1: Component, C2: Component, C3: Component, C4: Component>(block: (C1, C2, C3, C4) -> Void) {
+        if let c1 = self.get(C1.self),
+            let c2 = self.get(C2.self),
+            let c3 = self.get(C3.self),
+            let c4 = self.get(C4.self) {
+            block(c1, c2, c3, c4)
+        }
+    }
+}
+

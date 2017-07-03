@@ -73,4 +73,95 @@ class EntityTests: XCTestCase {
         XCTAssertEqual(position.x, 1)
         XCTAssertEqual(position.y, 3)
     }
+    
+    func testExtensions(){
+        let e = Entity(index: 0, mainObserver: observerStub)
+        e += Position(x: 1, y: 2)
+        e += Size(value: 3)
+        e += Name(value: "Max")
+        e += Person()
+        
+        do {
+            var flag = false
+            e.with { (p: Position, s: Size, n: Name, person: Person) in
+                flag = true
+                XCTAssert(n.value == "Max")
+                XCTAssert(s.value == 3)
+                XCTAssert(p.x == 1 && p.y == 2)
+            }
+            XCTAssert(flag)
+        }
+        
+        
+        e -= Person.cid
+        
+        do {
+            var flag = false
+            e.with { (p: Position, s: Size, n: Name, person: Person) in
+                flag = true
+            }
+            XCTAssert(flag == false)
+        }
+        
+        do {
+            var flag = false
+            e.with { (p: Position, s: Size, n: Name) in
+                flag = true
+                XCTAssert(n.value == "Max")
+                XCTAssert(s.value == 3)
+                XCTAssert(p.x == 1 && p.y == 2)
+            }
+            XCTAssert(flag)
+        }
+        
+        
+        e -= Name.cid
+        
+        do {
+            var flag = false
+            e.with { (p: Position, s: Size, n: Name) in
+                flag = true
+            }
+            XCTAssert(flag == false)
+        }
+        
+        do {
+            var flag = false
+            e.with { (p: Position, s: Size) in
+                flag = true
+                XCTAssert(s.value == 3)
+                XCTAssert(p.x == 1 && p.y == 2)
+            }
+            XCTAssert(flag)
+        }
+        
+        e -= Position.cid
+        
+        do {
+            var flag = false
+            e.with { (p: Position, s: Size) in
+                flag = true
+            }
+            XCTAssert(flag == false)
+        }
+        
+        do {
+            var flag = false
+            e.with { (s: Size) in
+                flag = true
+                XCTAssert(s.value == 3)
+            }
+            XCTAssert(flag)
+        }
+        
+        e -= Size.cid
+        
+        do {
+            var flag = false
+            e.with { (s: Size) in
+                flag = true
+            }
+            XCTAssert(flag == false)
+        }
+    }
 }
