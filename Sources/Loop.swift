@@ -16,7 +16,7 @@ public final class Loop: InitSystem, ExecuteSystem, CleanupSystem, TeardownSyste
     private var teardownSystems: [TeardownSystem] = []
     private weak var logger: SystemExecuteLogger?
     
-    init(name: String, systems: [System], logger: SystemExecuteLogger? = nil) {
+    public init(name: String, systems: [System], logger: SystemExecuteLogger? = nil) {
         self.name = name
         self.logger = logger
         for system in systems {
