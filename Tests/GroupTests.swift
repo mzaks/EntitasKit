@@ -273,4 +273,57 @@ class GroupTests: XCTestCase {
         
         XCTAssert(list == list2)
     }
+    
+    func testGroupIsEmpty() {
+        let ctx = Context()
+        let g = ctx.group(Position.matcher)
+        
+        XCTAssertEqual(g.isEmpty, true)
+        
+        _ = ctx.createEntity().set(Position(x: 1, y:2))
+        
+        XCTAssertEqual(g.isEmpty, false)
+    }
+    
+    func testWithEach() {
+        let ctx = Context()
+        let g = ctx.group(Matcher(any: [Position.cid, Name.cid, Size.cid, Person.cid]))
+        
+        let e = ctx.createEntity().set(Position(x: 1, y:2))
+        e += Name(value: "Max")
+        e += Size(value: 3)
+        e += Person()
+        
+        var found = false
+        g.withEach { (e, c: Position) in
+            found = true
+        }
+        XCTAssert(found)
+        
+        found = false
+        g.withEach { (e, c1: Position, c2: Person) in
+            found = true
+        }
+        XCTAssert(found)
+        
+        found = false
+        g.withEach { (e, c1: Position, c2: Person, c3: Size) in
+            found = true
+        }
+        XCTAssert(found)
+        
+        found = false
+        g.withEach { (e, c1: Position, c2: Person, c3: Size, c4: Name) in
+            found = true
+        }
+        XCTAssert(found)
+        
+        e -= Person.cid
+        
+        found = false
+        g.withEach { (e, c1: Position, c2: Person, c3: Size, c4: Name) in
+            found = true
+        }
+        XCTAssert(found == false)
+    }
 }

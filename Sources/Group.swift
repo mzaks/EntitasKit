@@ -83,7 +83,9 @@ public final class Group: Hashable {
     public var count: Int {
         return entities.count
     }
-    
+    public var isEmpty: Bool {
+        return entities.isEmpty
+    }
     public var hashValue: Int {
         return matcher.hashValue
     }
@@ -127,4 +129,37 @@ public protocol GroupObserver : Observer {
     func added(entity: Entity, oldComponent: Component?, newComponent: Component?, in group: Group)
     func updated(entity: Entity, oldComponent: Component?, newComponent: Component?, in group: Group)
     func removed(entity: Entity, oldComponent: Component?, newComponent: Component?, in group: Group)
+}
+
+extension Sequence where Self.Iterator.Element == Entity {
+    public func withEach<C1: Component>(block: @escaping (Entity, C1) -> Void) {
+        for e in self {
+            e.with { (c1: C1) in
+                block(e, c1)
+            }
+        }
+    }
+    public func withEach<C1: Component, C2: Component>(block: @escaping (Entity, C1, C2) -> Void) {
+        for e in self {
+            e.with { (c1: C1, c2: C2) in
+                block(e, c1, c2)
+            }
+        }
+    }
+    public func withEach<C1: Component, C2: Component, C3: Component>(block: @escaping (Entity, C1, C2, C3) -> Void) {
+        for e in self {
+            e.with { (c1: C1, c2: C2, c3: C3) in
+                block(e, c1, c2, c3)
+            }
+        }
+        
+    }
+    public func withEach<C1: Component, C2: Component, C3: Component, C4: Component>(
+        block: @escaping (Entity, C1, C2, C3, C4) -> Void) {
+        for e in self {
+            e.with { (c1: C1, c2: C2, c3: C3, c4: C4) in
+                block(e, c1, c2, c3, c4)
+            }
+        }
+    }
 }

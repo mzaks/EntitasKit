@@ -170,4 +170,66 @@ class ContextTests: XCTestCase {
         XCTAssert(e !== e2)
         XCTAssert(ctx.uniqueEntity(God.self) === e2)
     }
+    
+    func testCollector() {
+        let ctx = Context()
+        let collector = ctx.collector(for: Position.matcher)
+        let e = ctx.createEntity()
+        e += Position(x: 1, y: 2)
+        
+        XCTAssert(collector.first === e)
+    }
+    
+    func testAllAnyNone() {
+        let ctx = Context()
+        let g1 = ctx.all([Position.cid])
+        let g2 = ctx.all([Position.cid, Name.cid])
+        let g3 = ctx.any([Position.cid, Name.cid])
+        let e = ctx.createEntity()
+        e += Position(x: 1, y: 2)
+        
+        XCTAssert(g1.sorted().first === e)
+        XCTAssertNil(g2.sorted().first)
+        XCTAssert(g3.sorted().first === e)
+    }
+    
+    class MyContextObserver: ContextObserver {
+        var entities: [Entity] = []
+        func created(entity: Entity) {
+            entities.append(entity)
+        }
+        var groups: [Group] = []
+        func created(group: Group, withMatcher matcher: Matcher) {
+            groups.append(group)
+        }
+        var indexes: [AnyObject] = []
+        func created<T, C>(index: Index<T, C>) where T : Hashable, C : Component {
+            indexes.append(index)
+        }
+    }
+    
+    func testContextObserver() {
+        let ctx = Context()
+        let o = MyContextObserver()
+        ctx.observer(add: o)
+        let g = ctx.all([Position.cid])
+        XCTAssert(o.groups[0] === g)
+        
+        let e = ctx.createEntity()
+        XCTAssert(o.entities[0] === e)
+        
+        let index = ctx.index { (c: Size) -> Int in
+            return c.value
+        }
+        e += Size(value: 1)
+        XCTAssert(o.indexes[0] === index)
+        
+        o.groups.removeAll()
+        XCTAssert(o.groups.count == 0)
+        
+        ctx.observer(remove: o)
+        
+        _ = ctx.all([Size.cid])
+        XCTAssert(o.groups.count == 0)
+    }
 }

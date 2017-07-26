@@ -16,6 +16,7 @@ public final class Context {
     }()
     private var groups: [Matcher: Group] = [:]
     private var groupsByCID: [CID: Set<Group>] = [:]
+    private var observers : Set<ObserverBox> = []
     
     public init() {}
     
@@ -26,12 +27,16 @@ public final class Context {
         entities.removeAll()
         groups.removeAll()
         groupsByCID.removeAll()
+        observers.removeAll()
     }
     
     public func createEntity() -> Entity {
         entityIndex += 1
         let e = Entity(index: entityIndex, mainObserver: mainObserver)
         entities.insert(e)
+        for o in observers where o.ref is ContextObserver {
+            (o.ref as! ContextObserver).created(entity: e)
+        }
         return e
     }
     
@@ -41,6 +46,9 @@ public final class Context {
         }
         
         let group = Group(matcher: matcher)
+        for o in observers where o.ref is ContextObserver {
+            (o.ref as! ContextObserver).created(group: group, withMatcher: matcher)
+        }
         for e in entities {
             if matcher.matches(e) {
                 group.add(e)
@@ -98,7 +106,19 @@ public final class Context {
     }
     
     public func index<T: Hashable, C: Component>(paused: Bool = false, keyBuilder: @escaping (C) -> T) -> Index<T, C> {
-        return Index(ctx: self, paused: paused, keyBuilder: keyBuilder)
+        let index = Index(ctx: self, paused: paused, keyBuilder: keyBuilder)
+        for o in observers where o.ref is ContextObserver {
+            (o.ref as! ContextObserver).created(index: index)
+        }
+        return index
+    }
+    
+    public func observer(add o: ContextObserver){
+        observers.update(with: ObserverBox(o))
+    }
+    
+    public func observer(remove o: ContextObserver){
+        observers.remove(ObserverBox(o))
     }
     
     fileprivate func destroyed(entity: Entity) {
@@ -126,6 +146,12 @@ public final class Context {
     }
 }
 
+public protocol ContextObserver : Observer {
+    func created(entity: Entity)
+    func created(group: Group, withMatcher matcher: Matcher)
+    func created<T:Hashable, C: Component>(index: Index<T, C>)
+}
+
 private final class MainObserver: EntityObserver {
     weak var ctx: Context?
     init(ctx: Context) {
@@ -139,5 +165,17 @@ private final class MainObserver: EntityObserver {
     }
     public func destroyed(entity: Entity) {
         ctx?.destroyed(entity: entity)
+    }
+}
+
+extension Context {
+    public func collector(for matcher: Matcher, type: Collector.ChangeOptions = .added, paused: Bool = false) -> Collector {
+        return Collector(group: self.group(matcher), type: type, paused: paused)
+    }
+    public func all(_ cids: Set<CID>, any: Set<CID> = [], none: Set<CID> = []) -> Group {
+        return self.group(Matcher(all: cids, any: any, none: none))
+    }
+    public func any(_ cids: Set<CID>, none: Set<CID> = []) -> Group {
+        return self.group(Matcher(any: cids, none: none))
     }
 }
