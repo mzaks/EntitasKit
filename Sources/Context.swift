@@ -35,7 +35,7 @@ public final class Context {
         let e = Entity(index: entityIndex, mainObserver: mainObserver)
         entities.insert(e)
         for o in observers where o.ref is ContextObserver {
-            (o.ref as! ContextObserver).created(entity: e)
+            (o.ref as! ContextObserver).created(entity: e, in: self)
         }
         return e
     }
@@ -47,7 +47,7 @@ public final class Context {
         
         let group = Group(matcher: matcher)
         for o in observers where o.ref is ContextObserver {
-            (o.ref as! ContextObserver).created(group: group, withMatcher: matcher)
+            (o.ref as! ContextObserver).created(group: group, withMatcher: matcher, in: self)
         }
         for e in entities {
             if matcher.matches(e) {
@@ -108,7 +108,7 @@ public final class Context {
     public func index<T: Hashable, C: Component>(paused: Bool = false, keyBuilder: @escaping (C) -> T) -> Index<T, C> {
         let index = Index(ctx: self, paused: paused, keyBuilder: keyBuilder)
         for o in observers where o.ref is ContextObserver {
-            (o.ref as! ContextObserver).created(index: index)
+            (o.ref as! ContextObserver).created(index: index, in: self)
         }
         return index
     }
@@ -147,9 +147,9 @@ public final class Context {
 }
 
 public protocol ContextObserver : Observer {
-    func created(entity: Entity)
-    func created(group: Group, withMatcher matcher: Matcher)
-    func created<T:Hashable, C: Component>(index: Index<T, C>)
+    func created(entity: Entity, in context: Context)
+    func created(group: Group, withMatcher matcher: Matcher, in context: Context)
+    func created<T:Hashable, C: Component>(index: Index<T, C>, in context: Context)
 }
 
 private final class MainObserver: EntityObserver {

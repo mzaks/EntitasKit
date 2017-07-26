@@ -195,15 +195,15 @@ class ContextTests: XCTestCase {
     
     class MyContextObserver: ContextObserver {
         var entities: [Entity] = []
-        func created(entity: Entity) {
+        func created(entity: Entity, in context: Context) {
             entities.append(entity)
         }
         var groups: [Group] = []
-        func created(group: Group, withMatcher matcher: Matcher) {
+        func created(group: Group, withMatcher matcher: Matcher, in context: Context) {
             groups.append(group)
         }
         var indexes: [AnyObject] = []
-        func created<T, C>(index: Index<T, C>) where T : Hashable, C : Component {
+        func created<T, C>(index: Index<T, C>, in context: Context) where T : Hashable, C : Component {
             indexes.append(index)
         }
     }
