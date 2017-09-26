@@ -203,7 +203,7 @@ class ContextTests: XCTestCase {
             groups.append(group)
         }
         var indexes: [AnyObject] = []
-        func created<T, C>(index: Index<T, C>, in context: Context) where T : Hashable, C : Component {
+        func created<T, C>(index: Index<T, C>, in context: Context) {
             indexes.append(index)
         }
     }

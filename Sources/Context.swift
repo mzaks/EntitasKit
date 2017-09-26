@@ -149,7 +149,7 @@ public final class Context {
 public protocol ContextObserver : Observer {
     func created(entity: Entity, in context: Context)
     func created(group: Group, withMatcher matcher: Matcher, in context: Context)
-    func created<T:Hashable, C: Component>(index: Index<T, C>, in context: Context)
+    func created<T, C>(index: Index<T, C>, in context: Context)
 }
 
 private final class MainObserver: EntityObserver {
