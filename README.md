@@ -22,13 +22,13 @@ Let's imagine we have an app which has a NetworkingService. This networking serv
 
 ### How can we make it work with EntitasKit?
 First we need to import EntitasKit and create a context.
-```
+```swift
 import EntitasKit
 
 let appContext = Context()
 ```
 Now we need to define a _component_ which will hold reference to our networking service:
-```
+```swift
 struct NetworkingServiceComponent: UniqueComponent {
     let ref: NetworkingService
 }
@@ -37,7 +37,7 @@ struct NetworkingServiceComponent: UniqueComponent {
 The component is defined as _unique component_, this means that a context can hold only one instance of such component. And as a matter of fact, we would like to have only one networking service present in our application.
 Now lets setup our context.
 
-```
+```swift
 func setupAppContext() {
     appContext.setUniqueComponent(NetworkingServiceComponent(ref: NetworkingService()))
 }
@@ -47,13 +47,13 @@ In the setup function, we instantiate networking service component with an insta
 
 Now, if we want to call `sendMessage` method on our networking service, we can do it as following:
 
-```
+```swift
 appContext.uniqueComponent(NetworkingServiceComponent.self)?.ref.sendMessage()
 ```
 
 I mentioned before that EntitasKit makes it easy to test your app. This is due to the fact, that even though the networking service is unique in your app it can be easily replaced/mocked in your test. Just call this in your test setup method.
 
-```
+```swift
 appContext.setUniqueComponent(NetworkingServiceComponent(ref: NetworkingServiceMock()))
 ```
 
@@ -67,7 +67,7 @@ Imagine you have an app and there is an unfortunate feature requirement. You nee
 
 For this use case we will create another _component_:
 
-```
+```swift
 struct ModalViewControllerComponent: Component {
     weak var ref: UIViewController?
 }
@@ -77,7 +77,7 @@ This time our _component_ is not unique and the field of the component is a _wea
 
 In the `viewDidLoad` method of the modal view controller, we can register our view by adding following line:
 
-```
+```swift
 appContext.createEntity().set(ModalViewControllerComponent(ref: self))
 ```
 
@@ -85,7 +85,7 @@ As you can see, this time we create an entity and set modal view controller comp
 
 Let's assume, we have a situation where we showed multiple modal view controller and want to dismiss them all. How can we do it?
 
-```
+```swift
 for entity in appContext.group(ModalViewControllerComponent.matcher) {
     entity.get(ModalViewControllerComponent.self)?.ref?.dismiss(animated: false, completion: nil)
     entity.destroy()
@@ -100,7 +100,7 @@ In the code above, we see that we can ask context for group of entities which ha
 
 An event in Entitas is also just a component
 
-```
+```swift
 let eventContext = Context()
 
 struct MyEventComponent: Component {}
@@ -110,7 +110,7 @@ As you can see, we defined a context for events and a component `MyEvent`. The c
 
 Now we need to describe the observer
 
-```
+```swift
 protocol EventObserver: class {
     func eventDidOccur()
 }
@@ -124,7 +124,7 @@ We defined a protocol which classes has to implement in order to become an event
 
 The component we defined are very similar to what we did in the service registry part. However now we will introduce something new.
 
-```
+```swift
 class MyEventNotifyObserverSystem: ReactiveSystem {
     let collector: Collector = Collector(group: eventContext.group(MyEventComponent.matcher), type: .added)
     let name = "Notify event observer"
@@ -148,7 +148,7 @@ In our example we define, that we want to collect from a group of `MyEventCompon
 
 So if we have something like this in a view controller:
 
-```
+```swift
     @IBAction func buttonPushed(sender: Any) {
         eventContext.createEntity().set(MyEventComponent())
     }
@@ -160,7 +160,7 @@ To define the "processing" logic we have to implement the `execute(entities:)` m
 
 If a view controller would register itself as observer
 
-```
+```swift
     override func viewDidLoad() {
         super.viewDidLoad()
         eventContext.createEntity().set(EventObserverComponent(ref: self))
@@ -172,7 +172,7 @@ We will get something people call unidirectional data flow.
 
 A reactive system by itself is not doing anything, it is just a definition of behavior. In order for it to run, we have to put it in a reactive loop
 
-```
+```swift
 let eventLoop = ReactiveLoop(ctx: eventContext, systems: [MyEventNotifyObserverSystem()])
 ```
 
@@ -182,7 +182,7 @@ Now if we push the button, event loop will trigger the reactive system, which wi
 
 As you can see the `buttonPushed` `IBAction` is creating new entities every time. This means that we are polluting memory with all this previous events. Now don't get me wrong, specifically if the event would carry some data, it might be a desirable effect, but in our case we would like to clean up previous events. For this we can implement another reactive system
 
-```
+```swift
 class MyEventCleanupSystem: ReactiveSystem {
     let collector: Collector = Collector(group: eventContext.group(MyEventComponent.matcher), type: .added)
     let name = "Event cleanup system"
@@ -197,7 +197,7 @@ class MyEventCleanupSystem: ReactiveSystem {
 
 and add it to the event loop
 
-```
+```swift
 let eventLoop = ReactiveLoop(ctx: eventContext, systems: [MyEventNotifyObserverSystem(), MyEventCleanupSystem()])
 ```
 
@@ -217,7 +217,7 @@ But no worries if the execution order is important in your use case it is a simp
 
 We can introduce another component
 
-```
+```swift
 struct ExecutionIndexComponent: Component {
     let value: Int
 }
@@ -225,7 +225,7 @@ struct ExecutionIndexComponent: Component {
 
 And let listeners/observers define there execution order
 
-```
+```swift
 class Listener: EventObserver {
     let index: Int
     init(_ index: Int) {
@@ -242,7 +242,7 @@ let listeners = (1...10).map{Listener($0)}
 
 Now we can write a new reactive system which will execute the observers in defined order.
 
-```
+```swift
 class MyEventNotifyObserverInOrderSystem: ReactiveSystem {
     let collector: Collector = Collector(group: eventContext.group(MyEventComponent.matcher), type: .added)
     let name = "Notify event observer"
@@ -266,7 +266,7 @@ I want to point out two details in `MyEventNotifyObserverInOrderSystem`:
 
 Now as we have a reactive system which is responsible for notifying observers with execution order, let's change our `MyEventNotifyObserverSystem` to not handle observers with execution order. This can be done by exchanging the `observers` property definition
 
-```
+```swift
 let observers = eventContext.group(Matcher(all: [EventObserverComponent.cid], none: [ExecutionIndexComponent.cid]))
 ```
 
@@ -274,7 +274,7 @@ Here we say that we need a group of entities which have `EventObserverComponent`
 
 Last, but not least. Lets update our event loop
 
-```
+```swift
 let eventLoop = ReactiveLoop(ctx: eventContext, systems: [MyEventNotifyObserverSystem(), MyEventNotifyObserverInOrderSystem(), MyEventCleanupSystem()])
 ```
 
@@ -294,7 +294,7 @@ A picture tells more than 1000 words so here is a screen shot of what the result
 
 First things first let's define an options context:
 
-```
+```swift
 import EntitasKit
 
 let optionsCtx = Context()
@@ -335,7 +335,7 @@ As you can see we slice our components very thin (every component has only one p
 
 In order to setup options context we need to configure the options. Here is an example how you can do it in code:
 
-```
+```swift
 struct OptionsConfigData {
     let key: OptionsKey
     let index: Int
@@ -364,7 +364,7 @@ But you could also do it with JSON, plist or what ever comes to mind. Important 
 
 Here is the options context setup logic:
 
-```
+```swift
 func setupOptionsContext() {
     for option in optionsConfig {
         let e = optionsCtx.createEntity()
@@ -384,7 +384,7 @@ As you can see it is quite simple. We iterate over every option and create a cor
 
 Now let's have a look at our view controller:
 
-```
+```swift
 class ViewController: UITableViewController {
 
     var items = optionsCtx.group(Matcher(all:[OptionsKeyComponent.cid, IndexComponent.cid]))
@@ -416,7 +416,7 @@ It is a simple table view controller. The items are backed by a group of entitie
 
 Here is the implementation of `BoolOptionCell`:
 
-```
+```swift
 class BoolOptionCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -444,7 +444,7 @@ It has `IBOutlet` to title/description label and also to the options switch. Tho
 
 Last but not least, we would like to persist, the value of the changed option entry. This we can do we a reactive system.
 
-```
+```swift
 class PersistOptionsSystem: ReactiveSystem {
     let collector: Collector = Collector(
         group: optionsCtx.group(
@@ -474,7 +474,7 @@ In the `execute(entities:)` unpack bool and key components and set the value for
 
 To tight it all together lets update our app delegate to setup options context and hold a reference to reactive loop:
 
-```
+```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         setupOptionsContext()
 
@@ -488,7 +488,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 Now we have a great way of declaring storing persisting and displaying the options. But what about querying the options in other places of our app. We could use a group similar to the one we used in our table view controller and than filter it for option type we are interested in, but there is a better way in EntitasKit. We can define an index over component values:
 
-```
+```swift
 let optionsKeyIndex = optionsCtx.index { (comp: OptionsKeyComponent) -> OptionsKey in
     return comp.value
 }
@@ -500,7 +500,7 @@ This way we can query for options as following `optionsKeyIndex[.OptionA1].first
 
 Let's spice it up a bit let's say we want to add two more options _A1_ and _A2_
 
-```
+```swift
 enum OptionsKey: String {
     case OptionA, OptionB, OptionA1, OptionA2
 }
@@ -537,7 +537,7 @@ And we have a nasty feature requirement. If we turn of option A, options A1 and 
 
 This is a reactive system which will implement the logical part of the turn of A1 and A2 if A got turned of:
 
-```
+```swift
 class SwitchChildrenOfOptionASystem: ReactiveSystem {
     let collector: Collector = Collector(
         group: optionsCtx.group(
@@ -575,7 +575,7 @@ class SwitchChildrenOfOptionASystem: ReactiveSystem {
 
 I called it the logical part because here we only change the boolean value of options A1 and A2 if they are not set to false yet. We don't manipulate the UI. In order to update the table view we need to introduce another component:
 
-```
+```swift
 struct OptionsDisplayComponent: UniqueComponent {
     weak var ref: ViewController?
 }
@@ -583,7 +583,7 @@ struct OptionsDisplayComponent: UniqueComponent {
 
 And override the `viewDidLoad` method on the view controller and introduce a new method `updateCell`:
 
-```
+```swift
     override func viewDidLoad() {
         super.viewDidLoad()
         optionsCtx.setUniqueComponent(OptionsDisplayComponent(ref: self))
@@ -600,7 +600,7 @@ And override the `viewDidLoad` method on the view controller and introduce a new
 
 Now let's implement the reactive system which will handle the updates of the ui:
 
-```
+```swift
 class UpdateOptionsDisplaySystem: ReactiveSystem {
     let collector: Collector = Collector(
         group: optionsCtx.group(
@@ -625,7 +625,7 @@ class UpdateOptionsDisplaySystem: ReactiveSystem {
 
 Let's introduce a system which will implement the second part of our requirement - enable option A if A1 or A2 get enabled:
 
-```
+```swift
 class SwitchParentOfOptionASystem: ReactiveSystem {
     let collector: Collector = Collector(
         group: optionsCtx.group(
@@ -657,7 +657,7 @@ class SwitchParentOfOptionASystem: ReactiveSystem {
 
 Last thing we need to do is to update our AppDelegate
 
-```
+```swift
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         setupOptionsContext()
