@@ -47,7 +47,6 @@ public final class Entity {
         return self
     }
     
-    @discardableResult
     public func has(_ cid: CID) -> Bool {
         return components[cid] != nil
     }

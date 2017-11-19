@@ -326,4 +326,56 @@ class GroupTests: XCTestCase {
         }
         XCTAssert(found == false)
     }
+    
+    func testLoopOverGroupWhenOutOfOrderChangeOccurs(){
+        let ctx = Context()
+        let g = ctx.all([Position.cid, Name.cid])
+        
+        let e1 = ctx.createEntity()
+        e1 += Position(x: 1, y: 2)
+        e1 += Name(value: "1")
+        
+        let e2 = ctx.createEntity()
+        e2 += Position(x: 2, y: 2)
+        e2 += Name(value: "2")
+        
+        let e3 = ctx.createEntity()
+        e3 += Position(x: 3, y: 2)
+        e3 += Name(value: "3")
+        
+        for e in g {
+            e3 -= Name.cid
+            if e == e3 {
+                XCTAssertFalse(e.has(Name.cid))
+            } else {
+                XCTAssert(e.has(Name.cid))
+            }
+        }
+    }
+    
+    func testLoopWithComponentOverGroupWhenOutOfOrderChangeOccurs(){
+        let ctx = Context()
+        let g = ctx.all([Position.cid, Name.cid])
+        
+        let e1 = ctx.createEntity()
+        e1 += Position(x: 1, y: 2)
+        e1 += Name(value: "1")
+        
+        let e2 = ctx.createEntity()
+        e2 += Position(x: 2, y: 2)
+        e2 += Name(value: "2")
+        
+        let e3 = ctx.createEntity()
+        e3 += Position(x: 3, y: 2)
+        e3 += Name(value: "3")
+        
+        var count = 0
+        g.withEach { (e, c: Name) in
+            e3 -= Name.cid
+            XCTAssert(e.has(Name.cid))
+            count += 1
+        }
+        
+        XCTAssertEqual(2, count)
+    }
 }
