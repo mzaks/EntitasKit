@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0B1BF9BB1EE47F92005F654F /* EntitasKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B1BF9B11EE47F92005F654F /* EntitasKit.framework */; };
+		0B1D2853204C5F1B00C07128 /* EntitasLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1D2851204C5EC100C07128 /* EntitasLogger.swift */; };
+		0B1D2854204C5F1C00C07128 /* EntitasLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1D2851204C5EC100C07128 /* EntitasLogger.swift */; };
+		0B1D2856204C671300C07128 /* EntitasLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1D2855204C671300C07128 /* EntitasLoggerTests.swift */; };
+		0B4F47F7205BF38A00FD08FF /* RelevantEntityEventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4F47F6205BF38A00FD08FF /* RelevantEntityEventsTests.swift */; };
 		0B50D7711EF959FD003B3B23 /* LoopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6984A31EF9590A00B8D931 /* LoopTests.swift */; };
 		0B50D7721EF959FD003B3B23 /* ReactiveLoopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6984A41EF9590A00B8D931 /* ReactiveLoopTests.swift */; };
 		0B50D7731EF959FD003B3B23 /* Stubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6984A51EF9590A00B8D931 /* Stubs.swift */; };
@@ -46,6 +50,14 @@
 		0B69849F1EF958F400B8D931 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6984921EF958F400B8D931 /* Matcher.swift */; };
 		0B6984A01EF958F400B8D931 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6984931EF958F400B8D931 /* Component.swift */; };
 		0B6984A11EF958F400B8D931 /* Entitas-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B6984941EF958F400B8D931 /* Entitas-Swift.h */; };
+		0B775A2C204F38F4002F7210 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A2B204F38F4002F7210 /* EventType.swift */; };
+		0B775A2D204F38F4002F7210 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A2B204F38F4002F7210 /* EventType.swift */; };
+		0B775A2F204F3AD5002F7210 /* LoggerMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A2E204F3AD5002F7210 /* LoggerMatcher.swift */; };
+		0B775A30204F3AD5002F7210 /* LoggerMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A2E204F3AD5002F7210 /* LoggerMatcher.swift */; };
+		0B775A3220502C19002F7210 /* EntitasLogger+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A3120502C19002F7210 /* EntitasLogger+Query.swift */; };
+		0B775A3320502C19002F7210 /* EntitasLogger+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A3120502C19002F7210 /* EntitasLogger+Query.swift */; };
+		0B775A3720502EB3002F7210 /* EntitasLoggerQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A3420502EB0002F7210 /* EntitasLoggerQueryTests.swift */; };
+		0B775A4520559705002F7210 /* EventDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B775A4420559705002F7210 /* EventDataTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +73,9 @@
 /* Begin PBXFileReference section */
 		0B1BF9B11EE47F92005F654F /* EntitasKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EntitasKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1BF9BA1EE47F92005F654F /* EntitasKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EntitasKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1D2851204C5EC100C07128 /* EntitasLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntitasLogger.swift; path = "Entitas-Swift/Logging/EntitasLogger.swift"; sourceTree = SOURCE_ROOT; };
+		0B1D2855204C671300C07128 /* EntitasLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntitasLoggerTests.swift; path = Sources/EntitasLoggerTests.swift; sourceTree = SOURCE_ROOT; };
+		0B4F47F6205BF38A00FD08FF /* RelevantEntityEventsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RelevantEntityEventsTests.swift; path = "Entitas-Swift/Logging/RelevantEntityEventsTests.swift"; sourceTree = SOURCE_ROOT; };
 		0B50D7931EF95F0C003B3B23 /* EntitasKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EntitasKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B6265E31F004A0100702FE9 /* PerformanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PerformanceTests.swift; path = Tests/PerformanceTests.swift; sourceTree = SOURCE_ROOT; };
 		0B6266381F0A71C700702FE9 /* ObserverTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObserverTests.swift; path = Tests/ObserverTests.swift; sourceTree = SOURCE_ROOT; };
@@ -90,6 +105,11 @@
 		0B6984AD1EF9590A00B8D931 /* ComponentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComponentTests.swift; path = Tests/ComponentTests.swift; sourceTree = SOURCE_ROOT; };
 		0B6984AE1EF9590A00B8D931 /* TestComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestComponents.swift; path = Tests/TestComponents.swift; sourceTree = SOURCE_ROOT; };
 		0B6984AF1EF9590A00B8D931 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
+		0B775A2B204F38F4002F7210 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		0B775A2E204F3AD5002F7210 /* LoggerMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerMatcher.swift; sourceTree = "<group>"; };
+		0B775A3120502C19002F7210 /* EntitasLogger+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EntitasLogger+Query.swift"; sourceTree = "<group>"; };
+		0B775A3420502EB0002F7210 /* EntitasLoggerQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntitasLoggerQueryTests.swift; path = "Entitas-Swift/Logging/EntitasLoggerQueryTests.swift"; sourceTree = SOURCE_ROOT; };
+		0B775A4420559705002F7210 /* EventDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventDataTests.swift; path = "Entitas-Swift/Logging/EventDataTests.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +160,7 @@
 		0B1BF9B31EE47F92005F654F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0B775A2A204F3895002F7210 /* Logging */,
 				0B6984891EF958F400B8D931 /* System.swift */,
 				0B69848A1EF958F400B8D931 /* ReactiveLoop.swift */,
 				0B69848B1EF958F400B8D931 /* Loop.swift */,
@@ -176,9 +197,24 @@
 				0B6984AF1EF9590A00B8D931 /* Info.plist */,
 				0B6265E31F004A0100702FE9 /* PerformanceTests.swift */,
 				0B6266381F0A71C700702FE9 /* ObserverTests.swift */,
+				0B1D2855204C671300C07128 /* EntitasLoggerTests.swift */,
+				0B775A3420502EB0002F7210 /* EntitasLoggerQueryTests.swift */,
+				0B775A4420559705002F7210 /* EventDataTests.swift */,
+				0B4F47F6205BF38A00FD08FF /* RelevantEntityEventsTests.swift */,
 			);
 			name = Tests;
 			path = "Entitas-SwiftTests";
+			sourceTree = "<group>";
+		};
+		0B775A2A204F3895002F7210 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				0B1D2851204C5EC100C07128 /* EntitasLogger.swift */,
+				0B775A2B204F38F4002F7210 /* EventType.swift */,
+				0B775A2E204F3AD5002F7210 /* LoggerMatcher.swift */,
+				0B775A3120502C19002F7210 /* EntitasLogger+Query.swift */,
+			);
+			path = Logging;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,11 +370,15 @@
 			files = (
 				0B69849D1EF958F400B8D931 /* Group.swift in Sources */,
 				0B6984A01EF958F400B8D931 /* Component.swift in Sources */,
+				0B1D2853204C5F1B00C07128 /* EntitasLogger.swift in Sources */,
 				0B69849E1EF958F400B8D931 /* Observer.swift in Sources */,
+				0B775A2F204F3AD5002F7210 /* LoggerMatcher.swift in Sources */,
 				0B6984961EF958F400B8D931 /* System.swift in Sources */,
 				0B69849F1EF958F400B8D931 /* Matcher.swift in Sources */,
 				0B6984991EF958F400B8D931 /* Collector.swift in Sources */,
 				0B69849A1EF958F400B8D931 /* Entity.swift in Sources */,
+				0B775A3220502C19002F7210 /* EntitasLogger+Query.swift in Sources */,
+				0B775A2C204F38F4002F7210 /* EventType.swift in Sources */,
 				0B69849B1EF958F400B8D931 /* Context.swift in Sources */,
 				0B6984971EF958F400B8D931 /* ReactiveLoop.swift in Sources */,
 				0B69849C1EF958F400B8D931 /* Index.swift in Sources */,
@@ -352,12 +392,16 @@
 			files = (
 				0B50D77A1EF959FD003B3B23 /* EntityObserverTests.swift in Sources */,
 				0B6266391F0A71C700702FE9 /* ObserverTests.swift in Sources */,
+				0B775A4520559705002F7210 /* EventDataTests.swift in Sources */,
 				0B50D7791EF959FD003B3B23 /* MatcherTests.swift in Sources */,
 				0B50D7751EF959FD003B3B23 /* EntityTests.swift in Sources */,
 				0B6265E41F004A0100702FE9 /* PerformanceTests.swift in Sources */,
+				0B4F47F7205BF38A00FD08FF /* RelevantEntityEventsTests.swift in Sources */,
 				0B50D7761EF959FD003B3B23 /* CollectorTests.swift in Sources */,
+				0B1D2856204C671300C07128 /* EntitasLoggerTests.swift in Sources */,
 				0B50D7771EF959FD003B3B23 /* IndexTests.swift in Sources */,
 				0B50D77C1EF959FD003B3B23 /* TestComponents.swift in Sources */,
+				0B775A3720502EB3002F7210 /* EntitasLoggerQueryTests.swift in Sources */,
 				0B50D7781EF959FD003B3B23 /* GroupTests.swift in Sources */,
 				0B50D7731EF959FD003B3B23 /* Stubs.swift in Sources */,
 				0B50D7741EF959FD003B3B23 /* ContextTests.swift in Sources */,
@@ -373,11 +417,15 @@
 			files = (
 				0B50D7801EF95F0C003B3B23 /* Group.swift in Sources */,
 				0B50D7811EF95F0C003B3B23 /* Component.swift in Sources */,
+				0B1D2854204C5F1C00C07128 /* EntitasLogger.swift in Sources */,
 				0B50D7821EF95F0C003B3B23 /* Observer.swift in Sources */,
+				0B775A30204F3AD5002F7210 /* LoggerMatcher.swift in Sources */,
 				0B50D7831EF95F0C003B3B23 /* System.swift in Sources */,
 				0B50D7841EF95F0C003B3B23 /* Matcher.swift in Sources */,
 				0B50D7851EF95F0C003B3B23 /* Collector.swift in Sources */,
 				0B50D7861EF95F0C003B3B23 /* Entity.swift in Sources */,
+				0B775A3320502C19002F7210 /* EntitasLogger+Query.swift in Sources */,
+				0B775A2D204F38F4002F7210 /* EventType.swift in Sources */,
 				0B50D7871EF95F0C003B3B23 /* Context.swift in Sources */,
 				0B50D7881EF95F0C003B3B23 /* ReactiveLoop.swift in Sources */,
 				0B50D7891EF95F0C003B3B23 /* Index.swift in Sources */,

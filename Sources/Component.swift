@@ -32,3 +32,7 @@ extension Component {
         return CID(Self.self)
     }
 }
+
+public protocol ComponentInfo {
+    var info: String {get}
+}

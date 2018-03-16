@@ -25,3 +25,9 @@ struct Name: Component {
 struct Person: Component {}
 
 struct God: UniqueComponent {}
+
+extension Position: ComponentInfo {
+    var info: String {
+        return "x:\(x), y:\(y)"
+    }
+}

@@ -10,7 +10,7 @@ import Foundation
 
 
 public final class Entity {
-    let creationIndex: Int
+    public let creationIndex: Int
     private var components: [CID: Component] = [:]
     fileprivate let mainObserver: EntityObserver
     
