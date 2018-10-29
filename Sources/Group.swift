@@ -132,33 +132,64 @@ public protocol GroupObserver : Observer {
 }
 
 extension Sequence where Self.Iterator.Element == Entity {
-    public func withEach<C1: Component>(block: @escaping (Entity, C1) -> Void) {
-        for e in self {
-            e.with { (c1: C1) in
-                block(e, c1)
+    public func withEach<C1: Component>(sorted: Bool = false, block: @escaping (Entity, C1) -> Void) {
+        if sorted {
+            for e in self.sorted() {
+                e.with { (c1: C1) in
+                    block(e, c1)
+                }
+            }
+        } else {
+            for e in self {
+                e.with { (c1: C1) in
+                    block(e, c1)
+                }
             }
         }
     }
-    public func withEach<C1: Component, C2: Component>(block: @escaping (Entity, C1, C2) -> Void) {
-        for e in self {
-            e.with { (c1: C1, c2: C2) in
-                block(e, c1, c2)
+    public func withEach<C1: Component, C2: Component>(sorted: Bool = false, block: @escaping (Entity, C1, C2) -> Void) {
+        if sorted {
+            for e in self.sorted() {
+                e.with { (c1: C1, c2: C2) in
+                    block(e, c1, c2)
+                }
+            }
+        } else {
+            for e in self {
+                e.with { (c1: C1, c2: C2) in
+                    block(e, c1, c2)
+                }
             }
         }
     }
-    public func withEach<C1: Component, C2: Component, C3: Component>(block: @escaping (Entity, C1, C2, C3) -> Void) {
-        for e in self {
-            e.with { (c1: C1, c2: C2, c3: C3) in
-                block(e, c1, c2, c3)
+    public func withEach<C1: Component, C2: Component, C3: Component>(sorted: Bool = false, block: @escaping (Entity, C1, C2, C3) -> Void) {
+        if sorted {
+            for e in self.sorted() {
+                e.with { (c1: C1, c2: C2, c3: C3) in
+                    block(e, c1, c2, c3)
+                }
+            }
+        } else {
+            for e in self {
+                e.with { (c1: C1, c2: C2, c3: C3) in
+                    block(e, c1, c2, c3)
+                }
             }
         }
-        
     }
-    public func withEach<C1: Component, C2: Component, C3: Component, C4: Component>(
+    public func withEach<C1: Component, C2: Component, C3: Component, C4: Component>(sorted: Bool = false,
         block: @escaping (Entity, C1, C2, C3, C4) -> Void) {
-        for e in self {
-            e.with { (c1: C1, c2: C2, c3: C3, c4: C4) in
-                block(e, c1, c2, c3, c4)
+        if sorted {
+            for e in self.sorted() {
+                e.with { (c1: C1, c2: C2, c3: C3, c4: C4) in
+                    block(e, c1, c2, c3, c4)
+                }
+            }
+        } else {
+            for e in self.sorted() {
+                e.with { (c1: C1, c2: C2, c3: C3, c4: C4) in
+                    block(e, c1, c2, c3, c4)
+                }
             }
         }
     }

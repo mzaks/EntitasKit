@@ -370,9 +370,9 @@ class GroupTests: XCTestCase {
         e3 += Name(value: "3")
         
         var count = 0
-        g.withEach { (e, c: Name) in
+        g.withEach(sorted: true) { (e, c: Name) in
             e3 -= Name.cid
-            XCTAssert(e.has(Name.cid))
+            XCTAssertEqual(e.has(Name.cid), true)
             count += 1
         }
         

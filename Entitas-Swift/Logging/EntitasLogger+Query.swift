@@ -258,7 +258,7 @@ extension EntitasLogger {
             let contextName = contextNames[Int(contextIds[index])]
             let systemNameId = Int(systemNameIds[index])
             let systemName: String?
-            if systemNameId < systemNameIds.count {
+            if systemNameId < systemNames.count {
                 systemName = systemNames[systemNameId]
             } else {
                 systemName = nil
@@ -277,7 +277,7 @@ extension EntitasLogger {
             }
             let systemNameId = Int(systemNameIds[index])
             let systemName: String?
-            if systemNameId < systemNameIds.count {
+            if systemNameId < systemNames.count {
                 systemName = systemNames[systemNameId]
             } else {
                 systemName = nil
@@ -286,7 +286,7 @@ extension EntitasLogger {
         case .info, .error:
             let systemNameId = Int(systemNameIds[index])
             let systemName: String?
-            if systemNameId < systemNameIds.count {
+            if systemNameId < systemNames.count {
                 systemName = systemNames[systemNameId]
             } else {
                 systemName = nil
